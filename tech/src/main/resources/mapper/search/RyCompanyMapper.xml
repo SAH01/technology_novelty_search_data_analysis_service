@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.search.mapper.RyCompanyMapper">
+    
+    <resultMap type="RyCompany" id="RyCompanyResult">
+        <result property="id"    column="id"    />
+        <result property="company"    column="company"    />
+        <result property="province"    column="province"    />
+        <result property="postaladdress"    column="postalAddress"    />
+        <result property="enterprise"    column="enterprise"    />
+        <result property="projectNum"    column="project_num"    />
+        <result property="year"    column="year"    />
+    </resultMap>
+
+    <resultMap type="RyCompanyYear" id="RyCompanyYearResult">
+        <result property="years"    column="years"/>
+        <result property="projectNum" column="project_num" />
+    </resultMap>
+
+    <resultMap type="RyCompanySubject" id="RyCompanySubjectResult">
+        <result property="subjectArea"    column="subjectArea"/>
+        <result property="projectNum" column="project_num" />
+    </resultMap>
+
+    <select id="getCompanyYearNum" parameterType="String" resultMap="RyCompanyYearResult">
+        SELECT rc.`year`as years, SUM(rc.project_num) as project_num FROM `ry_company` rc
+        where rc.company=#{company} GROUP BY rc.`year` order by rc.`year` asc
+    </select>
+
+    <select id="getCompanySubjectNum" parameterType="String" resultMap="RyCompanySubjectResult">
+       SELECT
+	        a.subjectArea,
+	        count(a.company) AS project_num
+            FROM
+                `letter_of_attorney_3_new` a
+            WHERE
+                a.company = #{company} and a.year like CONCAT('%',#{year},'%')
+            GROUP BY
+                a.subjectArea
+            ORDER BY
+                project_num DESC
+            LIMIT 6;
+    </select>
+
+    <sql id="selectRyCompanyVo">
+        select id, company, province, postalAddress, enterprise, project_num, year from ry_company
+    </sql>
+
+    <select id="selectRyCompanyList" parameterType="RyCompany" resultMap="RyCompanyResult">
+        <include refid="selectRyCompanyVo"/>
+        <where>  
+            <if test="company != null  and company != ''"> and company like concat('%', #{company}, '%')</if>
+            <if test="province != null  and province != ''"> and province like concat('%', #{province}, '%')</if>
+            <if test="enterprise != null  and enterprise != ''"> and enterprise like concat('%', #{enterprise}, '%')</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+        </where>
+    </select>
+    
+    <select id="selectRyCompanyById" parameterType="Integer" resultMap="RyCompanyResult">
+        <include refid="selectRyCompanyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertRyCompany" parameterType="RyCompany">
+        insert into ry_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="company != null">company,</if>
+            <if test="province != null">province,</if>
+            <if test="postaladdress != null">postalAddress,</if>
+            <if test="enterprise != null">enterprise,</if>
+            <if test="projectNum != null">project_num,</if>
+            <if test="year != null">year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="company != null">#{company},</if>
+            <if test="province != null">#{province},</if>
+            <if test="postaladdress != null">#{postaladdress},</if>
+            <if test="enterprise != null">#{enterprise},</if>
+            <if test="projectNum != null">#{projectNum},</if>
+            <if test="year != null">#{year},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRyCompany" parameterType="RyCompany">
+        update ry_company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="company != null">company = #{company},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="postaladdress != null">postalAddress = #{postaladdress},</if>
+            <if test="enterprise != null">enterprise = #{enterprise},</if>
+            <if test="projectNum != null">project_num = #{projectNum},</if>
+            <if test="year != null">year = #{year},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRyCompanyById" parameterType="Integer">
+        delete from ry_company where id = #{id}
+    </delete>
+
+    <delete id="deleteRyCompanyByIds" parameterType="String">
+        delete from ry_company where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

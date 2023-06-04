@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress i -->
+<mapper namespace="com.ruoyi.auto.mapper.ReportMapper">
+    
+    <resultMap type="LetterOfAttorney3New" id="LetterOfAttorney3NewResult">
+        <result property="id"    column="id"    />
+        <result property="entrynamez"    column="entryNameZ"    />
+        <result property="entrynamey"    column="entryNameY"    />
+        <result property="company"    column="company"    />
+        <result property="postaladdress"    column="postalAddress"    />
+        <result property="projectsource"    column="projectSource"    />
+        <result property="noveltyretrievalxin"    column="noveltyRetrievalxin"    />
+        <result property="noveltyretrieval"    column="noveltyRetrieval"    />
+        <result property="noveltyrange"    column="noveltyRange"    />
+        <result property="subjectarea"    column="subjectArea"    />
+        <result property="technicalpoints"    column="technicalPoints"    />
+        <result property="spot"    column="spot"    />
+        <result property="retrievalz"    column="retrievalZ"    />
+        <result property="retrievaly"    column="retrievalY"    />
+        <result property="projectnumber"    column="projectNumber"    />
+        <result property="nameofthereport"    column="nameOfTheReport"    />
+        <result property="projectsourcecontent"    column="projectSourceContent"    />
+        <result property="objectivecontent"    column="objectiveContent"    />
+        <result property="enterprise"    column="enterprise"    />
+        <result property="enterprise1"    column="enterprise1"    />
+        <result property="type"    column="type"    />
+        <result property="releaseornot"    column="releaseOrNot"    />
+        <result property="releasedate"    column="releaseDate"    />
+        <result property="year"    column="year"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="area"    column="area"    />
+        <result property="spotsplit"    column="spotSplit"    />
+        <result property="projecttype"    column="projectType"    />
+        <result property="classificationnumber"    column="classificationNumber"    />
+        <result property="keyword"    column="keyWord"    />
+        <result property="retrievaltype"    column="retrievalType"    />
+        <result property="taskid"    column="taskId"    />
+        <result property="searchconclusion"    column="searchConclusion"    />
+        <result property="sourceurl"    column="sourceUrl"    />
+    </resultMap>
+
+    <sql id="selectLetterOfAttorney3NewVo">
+        select id, entryNameZ, entryNameY, company, postalAddress, projectSource,
+               noveltyRetrievalxin, noveltyRetrieval, noveltyRange, subjectArea,
+               technicalPoints, spot, retrievalZ, retrievalY, projectNumber,
+               nameOfTheReport, projectSourceContent, objectiveContent, enterprise,
+               enterprise1, type, releaseOrNot, releaseDate, year, province, city,
+            area, spotSplit, projectType, classificationNumber, keyWord, retrievalType,
+            taskId, searchConclusion, sourceUrl from letter_of_attorney_3_new
+    </sql>
+    
+    <select id="selectReportBySubject" parameterType="String" resultMap="LetterOfAttorney3NewResult">
+        <include refid="selectLetterOfAttorney3NewVo"/>
+        where subjectArea like CONCAT('%', #{subject}, '%') and keyWord like CONCAT('%', #{keyword}, '%') limit 5
+    </select>
+    
+</mapper>

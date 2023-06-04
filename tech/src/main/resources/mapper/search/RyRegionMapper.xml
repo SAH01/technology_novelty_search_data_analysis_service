@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.search.mapper.RyRegionMapper">
+    
+    <resultMap type="RyRegion" id="RyRegionResult">
+        <result property="id"    column="id"    />
+        <result property="province"    column="province"    />
+        <result property="projectNum"    column="project_num"    />
+        <result property="year"    column="year"    />
+    </resultMap>
+
+    <resultMap type="RyRegionSubject" id="RyRegionSubjectResult">
+        <result property="subjectArea"    column="subjectArea"/>
+        <result property="projectNum" column="project_num" />
+    </resultMap>
+
+    <sql id="selectRyRegionVo">
+        select id, province, project_num, year from ry_region
+    </sql>
+
+    <select id="getRegionSubjectNum" parameterType="String" resultMap="RyRegionSubjectResult">
+       SELECT
+	            a.subjectArea,
+                count(a.province) AS project_num
+            FROM
+                `letter_of_attorney_3_new` a
+            WHERE
+                a.province = #{province} and a.year like CONCAT('%',#{year},'%')
+            GROUP BY
+                a.subjectArea
+            ORDER BY
+                project_num DESC
+    </select>
+
+    <select id="selectRyRegionList" parameterType="RyRegion" resultMap="RyRegionResult">
+        <include refid="selectRyRegionVo"/>
+        <where>  
+            <if test="province != null  and province != ''"> and province like concat('%', #{province}, '%')</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+        </where>
+    </select>
+    
+    <select id="selectRyRegionById" parameterType="Integer" resultMap="RyRegionResult">
+        <include refid="selectRyRegionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertRyRegion" parameterType="RyRegion">
+        insert into ry_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="province != null">province,</if>
+            <if test="projectNum != null">project_num,</if>
+            <if test="year != null">year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="province != null">#{province},</if>
+            <if test="projectNum != null">#{projectNum},</if>
+            <if test="year != null">#{year},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRyRegion" parameterType="RyRegion">
+        update ry_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="province != null">province = #{province},</if>
+            <if test="projectNum != null">project_num = #{projectNum},</if>
+            <if test="year != null">year = #{year},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRyRegionById" parameterType="Integer">
+        delete from ry_region where id = #{id}
+    </delete>
+
+    <delete id="deleteRyRegionByIds" parameterType="String">
+        delete from ry_region where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

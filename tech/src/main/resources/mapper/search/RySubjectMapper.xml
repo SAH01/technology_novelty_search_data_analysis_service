@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.search.mapper.RySubjectMapper">
+    
+    <resultMap type="RySubject" id="RySubjectResult">
+        <result property="id"    column="id"    />
+        <result property="subjectarea"    column="subjectArea"    />
+        <result property="classificationnumber"    column="classificationNumber"    />
+        <result property="projectNum"    column="project_num"    />
+        <result property="year"    column="year"    />
+    </resultMap>
+
+    <resultMap type="RySubjectYear" id="RySubjectYearResult">
+        <result property="years"    column="years"/>
+        <result property="projectNum" column="project_num" />
+    </resultMap>
+
+    <resultMap type="RySubjectEnterprise" id="RySubjectEnterpriseResult">
+        <result property="enterprise"    column="enterprise"/>
+        <result property="projectNum" column="project_num" />
+    </resultMap>
+
+    <select id="getSubjectEnterpriseNum" parameterType="String" resultMap="RySubjectEnterpriseResult">
+       SELECT
+            r.`enterprise` as enterprise,
+            count(r.`enterprise`) as project_num
+        FROM
+            `letter_of_attorney_3_new` r
+        WHERE
+            r.subjectArea = #{subject} and r.year like CONCAT('%',#{year},'%')
+        GROUP BY
+            r.`enterprise`
+        ORDER BY project_num
+    </select>
+
+    <select id="getSubjectYearNum" parameterType="String" resultMap="RySubjectYearResult">
+        SELECT
+            r.`year` as years,
+            SUM(r.project_num) as project_num
+        FROM
+            `ry_subject` r
+        WHERE
+            r.subjectArea = #{subject}
+        GROUP BY
+            r.`year`
+        ORDER BY r.`year`
+    </select>
+
+    <sql id="selectRySubjectVo">
+        select id, subjectArea, classificationNumber, project_num, year from ry_subject
+    </sql>
+
+    <select id="selectRySubjectList" parameterType="RySubject" resultMap="RySubjectResult">
+        <include refid="selectRySubjectVo"/>
+        <where>  
+            <if test="subjectarea != null  and subjectarea != ''"> and subjectArea like concat('%', #{subjectarea}, '%')</if>
+            <if test="classificationnumber != null  and classificationnumber != ''"> and classificationNumber = #{classificationnumber}</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+        </where>
+    </select>
+    
+    <select id="selectRySubjectById" parameterType="Integer" resultMap="RySubjectResult">
+        <include refid="selectRySubjectVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertRySubject" parameterType="RySubject">
+        insert into ry_subject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="subjectarea != null">subjectArea,</if>
+            <if test="classificationnumber != null">classificationNumber,</if>
+            <if test="projectNum != null">project_num,</if>
+            <if test="year != null">year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="subjectarea != null">#{subjectarea},</if>
+            <if test="classificationnumber != null">#{classificationnumber},</if>
+            <if test="projectNum != null">#{projectNum},</if>
+            <if test="year != null">#{year},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRySubject" parameterType="RySubject">
+        update ry_subject
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subjectarea != null">subjectArea = #{subjectarea},</if>
+            <if test="classificationnumber != null">classificationNumber = #{classificationnumber},</if>
+            <if test="projectNum != null">project_num = #{projectNum},</if>
+            <if test="year != null">year = #{year},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRySubjectById" parameterType="Integer">
+        delete from ry_subject where id = #{id}
+    </delete>
+
+    <delete id="deleteRySubjectByIds" parameterType="String">
+        delete from ry_subject where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

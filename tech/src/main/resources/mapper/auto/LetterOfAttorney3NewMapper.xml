@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.auto.mapper.LetterOfAttorney3NewMapper">
+    
+    <resultMap type="LetterOfAttorney3New" id="LetterOfAttorney3NewResult">
+        <result property="id"    column="id"    />
+        <result property="entrynamez"    column="entryNameZ"    />
+        <result property="entrynamey"    column="entryNameY"    />
+        <result property="company"    column="company"    />
+        <result property="postaladdress"    column="postalAddress"    />
+        <result property="projectsource"    column="projectSource"    />
+        <result property="noveltyretrievalxin"    column="noveltyRetrievalxin"    />
+        <result property="noveltyretrieval"    column="noveltyRetrieval"    />
+        <result property="noveltyrange"    column="noveltyRange"    />
+        <result property="subjectarea"    column="subjectArea"    />
+        <result property="technicalpoints"    column="technicalPoints"    />
+        <result property="spot"    column="spot"    />
+        <result property="retrievalz"    column="retrievalZ"    />
+        <result property="retrievaly"    column="retrievalY"    />
+        <result property="projectnumber"    column="projectNumber"    />
+        <result property="nameofthereport"    column="nameOfTheReport"    />
+        <result property="projectsourcecontent"    column="projectSourceContent"    />
+        <result property="objectivecontent"    column="objectiveContent"    />
+        <result property="enterprise"    column="enterprise"    />
+        <result property="enterprise1"    column="enterprise1"    />
+        <result property="type"    column="type"    />
+        <result property="releaseornot"    column="releaseOrNot"    />
+        <result property="releasedate"    column="releaseDate"    />
+        <result property="year"    column="year"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="area"    column="area"    />
+        <result property="spotsplit"    column="spotSplit"    />
+        <result property="projecttype"    column="projectType"    />
+        <result property="classificationnumber"    column="classificationNumber"    />
+        <result property="keyword"    column="keyWord"    />
+        <result property="retrievaltype"    column="retrievalType"    />
+        <result property="taskid"    column="taskId"    />
+        <result property="searchconclusion"    column="searchConclusion"    />
+        <result property="sourceurl"    column="sourceUrl"    />
+    </resultMap>
+
+    <sql id="selectLetterOfAttorney3NewVo">
+        select id, entryNameZ, entryNameY, company, postalAddress, projectSource, noveltyRetrievalxin, noveltyRetrieval, noveltyRange, subjectArea, technicalPoints, spot, retrievalZ, retrievalY, projectNumber, nameOfTheReport, projectSourceContent, objectiveContent, enterprise, enterprise1, type, releaseOrNot, releaseDate, year, province, city, area, spotSplit, projectType, classificationNumber, keyWord, retrievalType, taskId, searchConclusion, sourceUrl from letter_of_attorney_3_new
+    </sql>
+
+    <select id="selectLetterOfAttorney3NewList" parameterType="LetterOfAttorney3New" resultMap="LetterOfAttorney3NewResult">
+        <include refid="selectLetterOfAttorney3NewVo"/>
+        <where>  
+            <if test="entrynamez != null  and entrynamez != ''"> and entryNameZ like concat('%', #{entrynamez}, '%')</if>
+            <if test="company != null  and company != ''"> and company like concat('%', #{company}, '%')</if>
+            <if test="noveltyretrieval != null  and noveltyretrieval != ''"> and noveltyRetrieval like concat('%', #{noveltyretrieval}, '%')</if>
+            <if test="subjectarea != null  and subjectarea != ''"> and subjectArea like concat('%', #{subjectarea}, '%')</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+        </where>
+    </select>
+    
+    <select id="selectLetterOfAttorney3NewById" parameterType="Integer" resultMap="LetterOfAttorney3NewResult">
+        <include refid="selectLetterOfAttorney3NewVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLetterOfAttorney3New" parameterType="LetterOfAttorney3New" useGeneratedKeys="true" keyProperty="id">
+        insert into letter_of_attorney_3_new
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entrynamez != null">entryNameZ,</if>
+            <if test="entrynamey != null">entryNameY,</if>
+            <if test="company != null">company,</if>
+            <if test="postaladdress != null">postalAddress,</if>
+            <if test="projectsource != null">projectSource,</if>
+            <if test="noveltyretrievalxin != null">noveltyRetrievalxin,</if>
+            <if test="noveltyretrieval != null">noveltyRetrieval,</if>
+            <if test="noveltyrange != null">noveltyRange,</if>
+            <if test="subjectarea != null">subjectArea,</if>
+            <if test="technicalpoints != null">technicalPoints,</if>
+            <if test="spot != null">spot,</if>
+            <if test="retrievalz != null">retrievalZ,</if>
+            <if test="retrievaly != null">retrievalY,</if>
+            <if test="projectnumber != null">projectNumber,</if>
+            <if test="nameofthereport != null">nameOfTheReport,</if>
+            <if test="projectsourcecontent != null">projectSourceContent,</if>
+            <if test="objectivecontent != null">objectiveContent,</if>
+            <if test="enterprise != null">enterprise,</if>
+            <if test="enterprise1 != null">enterprise1,</if>
+            <if test="type != null">type,</if>
+            <if test="releaseornot != null">releaseOrNot,</if>
+            <if test="releasedate != null">releaseDate,</if>
+            <if test="year != null">year,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null">city,</if>
+            <if test="area != null">area,</if>
+            <if test="spotsplit != null">spotSplit,</if>
+            <if test="projecttype != null">projectType,</if>
+            <if test="classificationnumber != null">classificationNumber,</if>
+            <if test="keyword != null">keyWord,</if>
+            <if test="retrievaltype != null">retrievalType,</if>
+            <if test="taskid != null">taskId,</if>
+            <if test="searchconclusion != null">searchConclusion,</if>
+            <if test="sourceurl != null">sourceUrl,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entrynamez != null">#{entrynamez},</if>
+            <if test="entrynamey != null">#{entrynamey},</if>
+            <if test="company != null">#{company},</if>
+            <if test="postaladdress != null">#{postaladdress},</if>
+            <if test="projectsource != null">#{projectsource},</if>
+            <if test="noveltyretrievalxin != null">#{noveltyretrievalxin},</if>
+            <if test="noveltyretrieval != null">#{noveltyretrieval},</if>
+            <if test="noveltyrange != null">#{noveltyrange},</if>
+            <if test="subjectarea != null">#{subjectarea},</if>
+            <if test="technicalpoints != null">#{technicalpoints},</if>
+            <if test="spot != null">#{spot},</if>
+            <if test="retrievalz != null">#{retrievalz},</if>
+            <if test="retrievaly != null">#{retrievaly},</if>
+            <if test="projectnumber != null">#{projectnumber},</if>
+            <if test="nameofthereport != null">#{nameofthereport},</if>
+            <if test="projectsourcecontent != null">#{projectsourcecontent},</if>
+            <if test="objectivecontent != null">#{objectivecontent},</if>
+            <if test="enterprise != null">#{enterprise},</if>
+            <if test="enterprise1 != null">#{enterprise1},</if>
+            <if test="type != null">#{type},</if>
+            <if test="releaseornot != null">#{releaseornot},</if>
+            <if test="releasedate != null">#{releasedate},</if>
+            <if test="year != null">#{year},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="area != null">#{area},</if>
+            <if test="spotsplit != null">#{spotsplit},</if>
+            <if test="projecttype != null">#{projecttype},</if>
+            <if test="classificationnumber != null">#{classificationnumber},</if>
+            <if test="keyword != null">#{keyword},</if>
+            <if test="retrievaltype != null">#{retrievaltype},</if>
+            <if test="taskid != null">#{taskid},</if>
+            <if test="searchconclusion != null">#{searchconclusion},</if>
+            <if test="sourceurl != null">#{sourceurl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLetterOfAttorney3New" parameterType="LetterOfAttorney3New">
+        update letter_of_attorney_3_new
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="entrynamez != null">entryNameZ = #{entrynamez},</if>
+            <if test="entrynamey != null">entryNameY = #{entrynamey},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="postaladdress != null">postalAddress = #{postaladdress},</if>
+            <if test="projectsource != null">projectSource = #{projectsource},</if>
+            <if test="noveltyretrievalxin != null">noveltyRetrievalxin = #{noveltyretrievalxin},</if>
+            <if test="noveltyretrieval != null">noveltyRetrieval = #{noveltyretrieval},</if>
+            <if test="noveltyrange != null">noveltyRange = #{noveltyrange},</if>
+            <if test="subjectarea != null">subjectArea = #{subjectarea},</if>
+            <if test="technicalpoints != null">technicalPoints = #{technicalpoints},</if>
+            <if test="spot != null">spot = #{spot},</if>
+            <if test="retrievalz != null">retrievalZ = #{retrievalz},</if>
+            <if test="retrievaly != null">retrievalY = #{retrievaly},</if>
+            <if test="projectnumber != null">projectNumber = #{projectnumber},</if>
+            <if test="nameofthereport != null">nameOfTheReport = #{nameofthereport},</if>
+            <if test="projectsourcecontent != null">projectSourceContent = #{projectsourcecontent},</if>
+            <if test="objectivecontent != null">objectiveContent = #{objectivecontent},</if>
+            <if test="enterprise != null">enterprise = #{enterprise},</if>
+            <if test="enterprise1 != null">enterprise1 = #{enterprise1},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="releaseornot != null">releaseOrNot = #{releaseornot},</if>
+            <if test="releasedate != null">releaseDate = #{releasedate},</if>
+            <if test="year != null">year = #{year},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="spotsplit != null">spotSplit = #{spotsplit},</if>
+            <if test="projecttype != null">projectType = #{projecttype},</if>
+            <if test="classificationnumber != null">classificationNumber = #{classificationnumber},</if>
+            <if test="keyword != null">keyWord = #{keyword},</if>
+            <if test="retrievaltype != null">retrievalType = #{retrievaltype},</if>
+            <if test="taskid != null">taskId = #{taskid},</if>
+            <if test="searchconclusion != null">searchConclusion = #{searchconclusion},</if>
+            <if test="sourceurl != null">sourceUrl = #{sourceurl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLetterOfAttorney3NewById" parameterType="Integer">
+        delete from letter_of_attorney_3_new where id = #{id}
+    </delete>
+
+    <delete id="deleteLetterOfAttorney3NewByIds" parameterType="String">
+        delete from letter_of_attorney_3_new where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

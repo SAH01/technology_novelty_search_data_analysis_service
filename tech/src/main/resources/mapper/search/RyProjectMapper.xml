@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.search.mapper.RyProjectMapper">
+    
+    <resultMap type="RyProject" id="RyProjectResult">
+        <result property="id"    column="id"    />
+        <result property="entrynamez"    column="entryNameZ"    />
+        <result property="subjectarea"    column="subjectArea"    />
+        <result property="company"    column="company"    />
+        <result property="province"    column="province"    />
+        <result property="projectsource"    column="projectSource"    />
+        <result property="noveltyretrieval"    column="noveltyRetrieval"    />
+        <result property="keyword"    column="keyWord"    />
+        <result property="year"    column="year"    />
+    </resultMap>
+
+    <sql id="selectRyProjectVo">
+        select id, entryNameZ, subjectArea, company, province, projectSource, noveltyRetrieval, keyWord, year from ry_project
+    </sql>
+
+    <select id="selectRyProjectList" parameterType="RyProject" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        <where>  
+            <if test="entrynamez != null  and entrynamez != ''"> and entryNameZ like concat('%', #{entrynamez}, '%')</if>
+            <if test="subjectarea != null  and subjectarea != ''"> and subjectArea like concat('%', #{subjectarea}, '%')</if>
+            <if test="company != null  and company != ''"> and company like concat('%', #{company}, '%')</if>
+            <if test="province != null  and province != ''"> and province like concat('%', #{province}, '%')</if>
+            <if test="noveltyretrieval != null  and noveltyretrieval != ''"> and noveltyRetrieval like concat('%', #{noveltyretrieval}, '%')</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+        </where>
+    </select>
+    
+    <select id="selectRyProjectById" parameterType="Integer" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectRyProjectByCompany" parameterType="String" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        <where>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+        </where>
+    </select>
+    
+    <select id="selectRyProjectByCompanyAndYear" parameterType="String" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        <where>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="year != null "> and year = #{year}</if>
+        </where>
+    </select>
+
+    <select id="selectRyProjectByProvince" parameterType="String" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        where province = #{province}
+    </select>
+    
+    <select id="selectRyProjectByProvinceAndYear" parameterType="String" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        <where>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="year != null "> and year = #{year}</if>
+        </where>
+    </select>
+    
+
+    <select id="selectRyProjectBySubject" parameterType="String" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        where subjectArea = #{subject}
+    </select>
+    
+    <select id="selectRyProjectBySubjectAndYear" parameterType="String" resultMap="RyProjectResult">
+        <include refid="selectRyProjectVo"/>
+        <where>
+            <if test="subject != null  and subject != ''"> and subjectArea = #{subject}</if>
+            <if test="year != null "> and year = #{year}</if>
+        </where>
+    </select>
+    
+    <insert id="insertRyProject" parameterType="RyProject">
+        insert into ry_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="entrynamez != null">entryNameZ,</if>
+            <if test="subjectarea != null">subjectArea,</if>
+            <if test="company != null">company,</if>
+            <if test="province != null">province,</if>
+            <if test="projectsource != null">projectSource,</if>
+            <if test="noveltyretrieval != null">noveltyRetrieval,</if>
+            <if test="keyword != null">keyWord,</if>
+            <if test="year != null">year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="entrynamez != null">#{entrynamez},</if>
+            <if test="subjectarea != null">#{subjectarea},</if>
+            <if test="company != null">#{company},</if>
+            <if test="province != null">#{province},</if>
+            <if test="projectsource != null">#{projectsource},</if>
+            <if test="noveltyretrieval != null">#{noveltyretrieval},</if>
+            <if test="keyword != null">#{keyword},</if>
+            <if test="year != null">#{year},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRyProject" parameterType="RyProject">
+        update ry_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="entrynamez != null">entryNameZ = #{entrynamez},</if>
+            <if test="subjectarea != null">subjectArea = #{subjectarea},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="projectsource != null">projectSource = #{projectsource},</if>
+            <if test="noveltyretrieval != null">noveltyRetrieval = #{noveltyretrieval},</if>
+            <if test="keyword != null">keyWord = #{keyword},</if>
+            <if test="year != null">year = #{year},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRyProjectById" parameterType="Integer">
+        delete from ry_project where id = #{id}
+    </delete>
+
+    <delete id="deleteRyProjectByIds" parameterType="String">
+        delete from ry_project where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

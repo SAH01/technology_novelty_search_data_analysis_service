@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.search.mapper.RyIndexMapper">
+
+    <resultMap type="RySubjectTop" id="RySubjectTopResult">
+        <result property="id"    column="id"    />
+        <result property="subjectarea"    column="subjectArea"    />
+        <result property="classificationnumber"    column="classificationNumber"    />
+        <result property="projectNum"    column="project_num"    />
+    </resultMap>
+
+    <resultMap type="RyResourceTop" id="RyResourceTopResult">
+        <result property="projectsource"    column="projectSource"    />
+        <result property="projectNum"    column="project_num"    />
+    </resultMap>
+
+    <resultMap type="RyAimTop" id="RyAimTopResult">
+        <result property="noveltyretrieval"    column="noveltyRetrieval"    />
+        <result property="projectNum"    column="project_num"    />
+    </resultMap>
+
+    <resultMap type="RyCompanyTop" id="RyCompanyTopResult">
+        <result property="id"    column="id"    />
+        <result property="company"    column="company"    />
+        <result property="province"    column="province"    />
+        <result property="enterprise"    column="enterprise"    />
+        <result property="projectNum"    column="project_num"    />
+    </resultMap>
+
+    <resultMap type="RyRegionSum" id="RyRegionSumResult">
+        <result property="id"    column="id"    />
+        <result property="province"    column="province"    />
+        <result property="projectNum"    column="project_num"    />
+    </resultMap>
+
+    <sql id="selectRySubjectTopVo">
+        select id, subjectArea, classificationNumber, project_num from ry_subject_top
+    </sql>
+
+    <select id="getSubjectTop" parameterType="Integer" resultMap="RySubjectTopResult">
+        select id, subjectArea, classificationNumber, project_num from ry_subject_top limit #{top}
+    </select>
+
+    <select id="getSubjectLast" parameterType="Integer" resultMap="RySubjectTopResult">
+        select id, subjectArea, classificationNumber, project_num from ry_subject_top
+        order by project_num asc limit #{last}
+    </select>
+
+    <select id="getProjectSource" resultMap="RyResourceTopResult">
+        select projectSource, project_num from ry_resource_top
+    </select>
+
+    <select id="getProjectAim" resultMap="RyAimTopResult">
+        select noveltyRetrieval, project_num from ry_aim_top
+    </select>
+
+    <select id="getCompanyTop" resultMap="RyCompanyTopResult">
+        select id, company, province, enterprise, project_num from ry_company_top
+        order by project_num desc limit #{top}
+    </select>
+
+    <select id="getRegionTop" resultMap="RyRegionSumResult">
+        select id, province, project_num from ry_region_sum
+        order by project_num desc limit #{top}
+    </select>
+</mapper>
