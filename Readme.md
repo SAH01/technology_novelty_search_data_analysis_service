@@ -1,6 +1,6 @@
 # 一、数据库
 
-（数据库文件过大，未上传，如有需要可以联系 V+   RELIABLE_YANG   。  拒绝白嫖，知识付费请您理解）
+（数据库文件和前端项目过大，未上传，如有需要可以联系 V+   RELIABLE_YANG   。  拒绝白嫖，知识付费请您理解）
 
 
 数据来源：国家科技报告服务系统【[国家科技报告服务系统 (nstrs.cn)](https://www.nstrs.cn/kjbg/navigation)】
